@@ -2,13 +2,36 @@ import "./App.css";
 import Batsman from "./Batsman";
 import Counter from "./Count";
 import Bolar from "./Bolar";
+import Users from "./Users";
+import Friends from "./Friends";
+import Posts from "./Posts";
+import { Suspense } from "react";
+
+// react api call functions sample:
+// const fetchUsers = fetch("https://jsonplaceholder.typicode.com/users").then(
+//   (res) => res.json(),
+// );
+
+//other api call functions:
+// const fetchFriends = async () => {
+//   const res = await fetch("https://jsonplaceholder.typicode.com/users");
+//   return res.json();
+// };
+
+// again api call function:
+const fetchPosts = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  return res.json();
+};
 
 function App() {
+  // const friendsPromise = fetchFriends();
+  const postsPromise = fetchPosts();
+
   // event handler
   function handleClick() {
     alert("click1 ");
   }
-
   const handlerClick2 = () => {
     alert("click 2");
   };
@@ -22,12 +45,23 @@ function App() {
     <>
       <div>
         <h1>Get started</h1>
+        <Suspense fallback={<h5>With all posts coming...</h5>}>
+          <Posts postsPromise={postsPromise}></Posts>
+        </Suspense>
 
-        <Bolar></Bolar>
+        {/* <Suspense fallback={<h4>With coming friends...</h4>}>
+          <Friends friendsPromise={friendsPromise}></Friends>
+        </Suspense> */}
 
-        <Batsman></Batsman>
+        {/* <Suspense fallback={<p>loading user.... </p>}>
+          <Users fetchUsers={fetchUsers}></Users>
+        </Suspense> */}
 
-        <Counter></Counter>
+        {/* <Bolar></Bolar> */}
+
+        {/* <Batsman></Batsman> */}
+
+        {/* <Counter></Counter> */}
 
         <button onClick={handleClick}>clik me</button>
         <br />
