@@ -6,6 +6,7 @@ import Users from "./Users";
 import Friends from "./Friends";
 import Posts from "./Posts";
 import { Suspense } from "react";
+import DataApi from "./DataApi";
 
 // react api call functions sample:
 // const fetchUsers = fetch("https://jsonplaceholder.typicode.com/users").then(
@@ -24,9 +25,16 @@ const fetchPosts = async () => {
   return res.json();
 };
 
+const fetchData = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  return res.json();
+};
+
 function App() {
   // const friendsPromise = fetchFriends();
   const postsPromise = fetchPosts();
+
+  const dataPromise = fetchData();
 
   // event handler
   function handleClick() {
@@ -47,6 +55,12 @@ function App() {
         <h1>Get started</h1>
         <Suspense fallback={<h5>With all posts coming...</h5>}>
           <Posts postsPromise={postsPromise}></Posts>
+        </Suspense>
+
+        {/*  */}
+
+        <Suspense fallback={<h1>api loading...!</h1>}>
+          <DataApi dataPromise={dataPromise}></DataApi>
         </Suspense>
 
         {/* <Suspense fallback={<h4>With coming friends...</h4>}>
